@@ -1,18 +1,18 @@
 import 'dart:developer';
 
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:rick_and_morty/services/rick_and_morty_api/api.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'config/index.dart' show lightTheme, AppConstants;
+import 'providers/di/api_client_provider.dart';
+import 'config/index.dart' show lightTheme;
 
-class RickAndMortyApp extends StatelessWidget {
-  RickAndMortyApp({super.key});
-
-  final Dio dio = Dio();
+class RickAndMortyApp extends ConsumerWidget {
+  const RickAndMortyApp({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final apiClient = ref.watch(apiClientProvider);
+
     return MaterialApp(
       theme: lightTheme,
       home: Scaffold(
@@ -20,10 +20,7 @@ class RickAndMortyApp extends StatelessWidget {
           child: ElevatedButton(
             onPressed: () async {
               try {
-                final response = await RickAndMortyApiClient(
-                  dio,
-                  baseUrl: AppConstants.apiBaseUrl,
-                ).getCharacters();
+                final response = await apiClient.getCharacters();
                 inspect(response);
               } catch (e) {
                 inspect(e);
