@@ -8,5 +8,7 @@ part 'all_characters.freezed.dart';
 abstract class AllCharacters with _$AllCharacters {
   const factory AllCharacters({
     required List<CharacterWithFavorite> characters,
+    required int currentPage,
+    required bool hasMore,
   }) = _AllCharacters;
 }

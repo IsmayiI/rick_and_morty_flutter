@@ -7,15 +7,19 @@ class GetAllCharactersUsecase {
 
   GetAllCharactersUsecase(this.getCharactersUseCase);
 
-  Future<AllCharacters> call() async {
+  Future<AllCharacters> call(int page) async {
     try {
-      final characters = await getCharactersUseCase();
+      final characters = await getCharactersUseCase(page);
 
       final charactersWithFavorite = characters.results.map((char) {
         return CharacterWithFavorite(character: char, isFavorite: false);
       }).toList();
 
-      return AllCharacters(characters: charactersWithFavorite);
+      return AllCharacters(
+        characters: charactersWithFavorite,
+        currentPage: page,
+        hasMore: true,
+      );
     } catch (e) {
       rethrow;
     }

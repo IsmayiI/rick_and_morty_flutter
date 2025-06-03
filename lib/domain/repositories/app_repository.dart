@@ -6,9 +6,9 @@ class AppRepository {
 
   AppRepository(this.apiClient);
 
-  Future<CharacterResponse> getCharacters() async {
+  Future<CharacterResponse> getCharacters(int page) async {
     try {
-      final response = await apiClient.getCharacters();
+      final response = await apiClient.getCharacters(page);
       return response;
     } catch (e) {
       rethrow;

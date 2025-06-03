@@ -17,7 +17,7 @@ class MainPage extends StatelessWidget {
       body: Consumer(
         builder: (_, ref, __) {
           final index = ref.watch(navigationProvider);
-          return pages[index];
+          return IndexedStack(index: index, children: pages);
         },
       ),
     );

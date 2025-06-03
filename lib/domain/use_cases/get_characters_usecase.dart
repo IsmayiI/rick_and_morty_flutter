@@ -6,9 +6,9 @@ class GetCharactersUseCase {
 
   GetCharactersUseCase(this.repository);
 
-  Future<CharacterResponse> call() async {
+  Future<CharacterResponse> call(int page) async {
     try {
-      return await repository.getCharacters();
+      return await repository.getCharacters(page);
     } catch (e) {
       rethrow;
     }

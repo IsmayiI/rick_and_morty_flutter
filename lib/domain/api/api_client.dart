@@ -9,5 +9,5 @@ abstract class ApiClient {
   factory ApiClient(Dio dio) = _ApiClient;
 
   @GET('/character')
-  Future<CharacterResponse> getCharacters();
+  Future<CharacterResponse> getCharacters(@Query('page') int page);
 }
