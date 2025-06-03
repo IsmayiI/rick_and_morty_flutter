@@ -11,7 +11,6 @@ class HomePage extends ConsumerWidget {
     final asyncAllCharacters = ref.watch(allCharactersProvider);
 
     return Scaffold(
-      appBar: AppBar(title: Text('The Rick and Morty API')),
       body: asyncAllCharacters.when(
         data: (allCharacters) {
           final characters = allCharacters.characters;
