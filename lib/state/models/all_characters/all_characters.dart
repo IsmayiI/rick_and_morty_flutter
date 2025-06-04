@@ -10,5 +10,6 @@ abstract class AllCharacters with _$AllCharacters {
     required List<CharacterWithFavorite> characters,
     required int currentPage,
     required bool hasMore,
+    required bool isLoadingMore,
   }) = _AllCharacters;
 }

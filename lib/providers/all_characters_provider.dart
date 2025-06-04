@@ -10,12 +10,13 @@ class AllCharactersNotifier extends AsyncNotifier<AllCharacters> {
   @override
   FutureOr<AllCharacters> build() async {
     final getAllCharacters = ref.read(getAllCharactersUseCaseProvider);
-    return await getAllCharacters(41);
+    return await getAllCharacters(1);
   }
 
   Future<void> loadMoreCharacters() async {
     final currentState = state.value;
     if (currentState == null) return;
+    state = AsyncValue.data(state.value!.copyWith(isLoadingMore: true));
 
     final loadMoreCharacters = ref.read(loadMoreCharactersUseCaseProvider);
 
@@ -28,33 +29,3 @@ class AllCharactersNotifier extends AsyncNotifier<AllCharacters> {
 }
 
 final allCharactersProvider = AsyncNotifierProvider(AllCharactersNotifier.new);
-
-
-  // Future<void> loadMoreCharacters() async {
-  //   final currentState = state.value;
-
-  //   if (currentState == null) return;
-
-  //   final getAllCharacters = ref.read(getAllCharactersUseCaseProvider);
-
-  //   final nextPage = currentState.currentPage + 1;
-  //   if (nextPage > AppConstants.totalPages) return;
-
-  //   try {
-  //     final nextPageCharacters = await getAllCharacters(nextPage);
-
-  //     final updatedCharacters = [
-  //       ...currentState.characters,
-  //       ...nextPageCharacters.characters,
-  //     ];
-
-  //     state = AsyncValue.data(
-  //       currentState.copyWith(
-  //         characters: updatedCharacters,
-  //         currentPage: nextPage,
-  //       ),
-  //     );
-  //   } catch (e, st) {
-  //     state = AsyncValue.error(e, st);
-  //   }
-  // }

@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$AllCharacters {
 
- List<CharacterWithFavorite> get characters; int get currentPage; bool get hasMore;
+ List<CharacterWithFavorite> get characters; int get currentPage; bool get hasMore; bool get isLoadingMore;
 /// Create a copy of AllCharacters
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -26,16 +26,16 @@ $AllCharactersCopyWith<AllCharacters> get copyWith => _$AllCharactersCopyWithImp
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is AllCharacters&&const DeepCollectionEquality().equals(other.characters, characters)&&(identical(other.currentPage, currentPage) || other.currentPage == currentPage)&&(identical(other.hasMore, hasMore) || other.hasMore == hasMore));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is AllCharacters&&const DeepCollectionEquality().equals(other.characters, characters)&&(identical(other.currentPage, currentPage) || other.currentPage == currentPage)&&(identical(other.hasMore, hasMore) || other.hasMore == hasMore)&&(identical(other.isLoadingMore, isLoadingMore) || other.isLoadingMore == isLoadingMore));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(characters),currentPage,hasMore);
+int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(characters),currentPage,hasMore,isLoadingMore);
 
 @override
 String toString() {
-  return 'AllCharacters(characters: $characters, currentPage: $currentPage, hasMore: $hasMore)';
+  return 'AllCharacters(characters: $characters, currentPage: $currentPage, hasMore: $hasMore, isLoadingMore: $isLoadingMore)';
 }
 
 
@@ -46,7 +46,7 @@ abstract mixin class $AllCharactersCopyWith<$Res>  {
   factory $AllCharactersCopyWith(AllCharacters value, $Res Function(AllCharacters) _then) = _$AllCharactersCopyWithImpl;
 @useResult
 $Res call({
- List<CharacterWithFavorite> characters, int currentPage, bool hasMore
+ List<CharacterWithFavorite> characters, int currentPage, bool hasMore, bool isLoadingMore
 });
 
 
@@ -63,11 +63,12 @@ class _$AllCharactersCopyWithImpl<$Res>
 
 /// Create a copy of AllCharacters
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? characters = null,Object? currentPage = null,Object? hasMore = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? characters = null,Object? currentPage = null,Object? hasMore = null,Object? isLoadingMore = null,}) {
   return _then(_self.copyWith(
 characters: null == characters ? _self.characters : characters // ignore: cast_nullable_to_non_nullable
 as List<CharacterWithFavorite>,currentPage: null == currentPage ? _self.currentPage : currentPage // ignore: cast_nullable_to_non_nullable
 as int,hasMore: null == hasMore ? _self.hasMore : hasMore // ignore: cast_nullable_to_non_nullable
+as bool,isLoadingMore: null == isLoadingMore ? _self.isLoadingMore : isLoadingMore // ignore: cast_nullable_to_non_nullable
 as bool,
   ));
 }
@@ -79,7 +80,7 @@ as bool,
 
 
 class _AllCharacters implements AllCharacters {
-  const _AllCharacters({required final  List<CharacterWithFavorite> characters, required this.currentPage, required this.hasMore}): _characters = characters;
+  const _AllCharacters({required final  List<CharacterWithFavorite> characters, required this.currentPage, required this.hasMore, required this.isLoadingMore}): _characters = characters;
   
 
  final  List<CharacterWithFavorite> _characters;
@@ -91,6 +92,7 @@ class _AllCharacters implements AllCharacters {
 
 @override final  int currentPage;
 @override final  bool hasMore;
+@override final  bool isLoadingMore;
 
 /// Create a copy of AllCharacters
 /// with the given fields replaced by the non-null parameter values.
@@ -102,16 +104,16 @@ _$AllCharactersCopyWith<_AllCharacters> get copyWith => __$AllCharactersCopyWith
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _AllCharacters&&const DeepCollectionEquality().equals(other._characters, _characters)&&(identical(other.currentPage, currentPage) || other.currentPage == currentPage)&&(identical(other.hasMore, hasMore) || other.hasMore == hasMore));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _AllCharacters&&const DeepCollectionEquality().equals(other._characters, _characters)&&(identical(other.currentPage, currentPage) || other.currentPage == currentPage)&&(identical(other.hasMore, hasMore) || other.hasMore == hasMore)&&(identical(other.isLoadingMore, isLoadingMore) || other.isLoadingMore == isLoadingMore));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_characters),currentPage,hasMore);
+int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_characters),currentPage,hasMore,isLoadingMore);
 
 @override
 String toString() {
-  return 'AllCharacters(characters: $characters, currentPage: $currentPage, hasMore: $hasMore)';
+  return 'AllCharacters(characters: $characters, currentPage: $currentPage, hasMore: $hasMore, isLoadingMore: $isLoadingMore)';
 }
 
 
@@ -122,7 +124,7 @@ abstract mixin class _$AllCharactersCopyWith<$Res> implements $AllCharactersCopy
   factory _$AllCharactersCopyWith(_AllCharacters value, $Res Function(_AllCharacters) _then) = __$AllCharactersCopyWithImpl;
 @override @useResult
 $Res call({
- List<CharacterWithFavorite> characters, int currentPage, bool hasMore
+ List<CharacterWithFavorite> characters, int currentPage, bool hasMore, bool isLoadingMore
 });
 
 
@@ -139,11 +141,12 @@ class __$AllCharactersCopyWithImpl<$Res>
 
 /// Create a copy of AllCharacters
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? characters = null,Object? currentPage = null,Object? hasMore = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? characters = null,Object? currentPage = null,Object? hasMore = null,Object? isLoadingMore = null,}) {
   return _then(_AllCharacters(
 characters: null == characters ? _self._characters : characters // ignore: cast_nullable_to_non_nullable
 as List<CharacterWithFavorite>,currentPage: null == currentPage ? _self.currentPage : currentPage // ignore: cast_nullable_to_non_nullable
 as int,hasMore: null == hasMore ? _self.hasMore : hasMore // ignore: cast_nullable_to_non_nullable
+as bool,isLoadingMore: null == isLoadingMore ? _self.isLoadingMore : isLoadingMore // ignore: cast_nullable_to_non_nullable
 as bool,
   ));
 }

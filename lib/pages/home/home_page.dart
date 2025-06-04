@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rick_and_morty/components/index.dart';
+import 'package:rick_and_morty/config/index.dart';
 import 'package:rick_and_morty/providers/all_characters_provider.dart';
 
 class HomePage extends ConsumerStatefulWidget {
@@ -58,24 +59,32 @@ class _State extends ConsumerState<HomePage> {
             padding: const EdgeInsets.only(top: 20),
 
             // список
-            child: ListView.separated(
-              controller: scrollController,
-              itemCount: characters.length,
-              itemBuilder: (BuildContext context, int index) {
-                final character = characters[index].character;
-                return Padding(
-                  // горизонтальный отступ карточки
-                  padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: Column(
+              children: [
+                Expanded(
+                  child: ListView.separated(
+                    controller: scrollController,
+                    itemCount: characters.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      final character = characters[index].character;
+                      return Padding(
+                        // горизонтальный отступ карточки
+                        padding: const EdgeInsets.symmetric(horizontal: 16),
 
-                  // карточка
-                  child: CharacterCard(character: character),
-                );
-              },
+                        // карточка
+                        child: CharacterCard(character: character),
+                      );
+                    },
 
-              // отступ между карточками
-              separatorBuilder: (BuildContext context, int index) {
-                return const SizedBox(height: 20);
-              },
+                    // отступ между карточками
+                    separatorBuilder: (BuildContext context, int index) {
+                      return const SizedBox(height: 20);
+                    },
+                  ),
+                ),
+                if (allCharacters.isLoadingMore)
+                  const CircularProgressIndicator(padding: EdgeInsets.all(20)),
+              ],
             ),
           );
         },

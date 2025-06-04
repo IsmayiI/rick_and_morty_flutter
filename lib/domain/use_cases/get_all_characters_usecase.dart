@@ -19,6 +19,7 @@ class GetAllCharactersUsecase {
         characters: charactersWithFavorite,
         currentPage: page,
         hasMore: true,
+        isLoadingMore: false,
       );
     } catch (e) {
       rethrow;

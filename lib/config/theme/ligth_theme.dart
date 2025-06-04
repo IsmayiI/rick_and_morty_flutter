@@ -13,4 +13,7 @@ final lightTheme = ThemeData(
       color: AppColorsLight.background,
     ),
   ),
+  progressIndicatorTheme: ProgressIndicatorThemeData(
+    color: AppColorsLight.primary,
+  ),
 );
