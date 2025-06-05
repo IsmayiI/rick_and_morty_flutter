@@ -1,13 +1,26 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rick_and_morty/config/index.dart';
 import 'package:rick_and_morty/domain/models/index.dart';
+import 'package:rick_and_morty/providers/all_characters_provider.dart';
+import 'package:rick_and_morty/state/models/character_with_favorite/character_with_favorite.dart';
+
+// Типы кнопок
+enum TypeButton { add, delete }
 
 class CharacterCard extends StatelessWidget {
-  final Character character;
-  const CharacterCard({super.key, required this.character});
+  final CharacterWithFavorite characterWithFavorite;
+  final bool addToFavoriteButton;
+  const CharacterCard({
+    super.key,
+    required this.characterWithFavorite,
+    this.addToFavoriteButton = false,
+  });
 
   @override
   Widget build(BuildContext context) {
+    final character = characterWithFavorite.character;
+
     return Container(
       clipBehavior: Clip.hardEdge,
       decoration: BoxDecoration(
@@ -27,9 +40,54 @@ class CharacterCard extends StatelessWidget {
             ],
           ),
 
-          // кнопка добавить в избранное
-          Positioned(bottom: 0, right: 0, child: _AddToFavoriteButton()),
+          // кнопка
+          Positioned(
+            bottom: 0,
+            right: 0,
+            child: _Button(
+              characterWithFavorite,
+              addToFavoriteButton ? TypeButton.add : TypeButton.delete,
+            ),
+          ),
         ],
+      ),
+    );
+  }
+}
+
+class _Button extends ConsumerWidget {
+  final CharacterWithFavorite characterWithFavorite;
+  final TypeButton typeButton;
+  const _Button(this.characterWithFavorite, this.typeButton);
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final id = characterWithFavorite.character.id;
+    late IconData icon;
+
+    if (typeButton == TypeButton.add) icon = Icons.star_border;
+    if (characterWithFavorite.isFavorite) icon = Icons.star;
+    if (typeButton == TypeButton.delete) icon = Icons.delete_outline;
+    // final icon = characterWithFavorite.isFavorite
+    //     ? Icons.star
+    //     : Icons.star_border;
+
+    return IconButton(
+      onPressed: typeButton == TypeButton.add
+          ? () => ref.read(allCharactersProvider.notifier).addToFavorite(id)
+          : () =>
+                ref.read(allCharactersProvider.notifier).deleteFromFavorite(id),
+
+      icon: Icon(icon),
+
+      // style
+      style: ElevatedButton.styleFrom(
+        minimumSize: const Size(50, 50),
+        backgroundColor: Colors.grey.shade900,
+        foregroundColor: AppColorsLight.primary,
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.only(topLeft: Radius.circular(12)),
+        ),
       ),
     );
   }
@@ -70,28 +128,6 @@ class _CardDescription extends StatelessWidget {
           ],
         ),
       ],
-    );
-  }
-}
-
-class _AddToFavoriteButton extends StatelessWidget {
-  const _AddToFavoriteButton();
-
-  @override
-  Widget build(BuildContext context) {
-    return IconButton(
-      onPressed: () {},
-      icon: const Icon(Icons.star_border_outlined),
-
-      // style
-      style: ElevatedButton.styleFrom(
-        minimumSize: const Size(50, 50),
-        backgroundColor: Colors.grey.shade900,
-        foregroundColor: AppColorsLight.primary,
-        shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.only(topLeft: Radius.circular(12)),
-        ),
-      ),
     );
   }
 }

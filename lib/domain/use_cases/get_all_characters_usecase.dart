@@ -20,6 +20,8 @@ class GetAllCharactersUsecase {
         currentPage: page,
         hasMore: true,
         isLoadingMore: false,
+        favoriteCharacters: [],
+        sortedCharacters: [],
       );
     } catch (e) {
       rethrow;

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rick_and_morty/components/index.dart';
-import 'package:rick_and_morty/config/index.dart';
 import 'package:rick_and_morty/providers/all_characters_provider.dart';
 
 class HomePage extends ConsumerStatefulWidget {
@@ -58,21 +57,24 @@ class _State extends ConsumerState<HomePage> {
             // отступ сверху списка
             padding: const EdgeInsets.only(top: 20),
 
-            // список
             child: Column(
               children: [
+                // список
                 Expanded(
                   child: ListView.separated(
                     controller: scrollController,
                     itemCount: characters.length,
                     itemBuilder: (BuildContext context, int index) {
-                      final character = characters[index].character;
+                      final character = characters[index];
                       return Padding(
                         // горизонтальный отступ карточки
                         padding: const EdgeInsets.symmetric(horizontal: 16),
 
                         // карточка
-                        child: CharacterCard(character: character),
+                        child: CharacterCard(
+                          characterWithFavorite: character,
+                          addToFavoriteButton: true,
+                        ),
                       );
                     },
 
@@ -82,6 +84,8 @@ class _State extends ConsumerState<HomePage> {
                     },
                   ),
                 ),
+
+                // индикатор загрузки следующих страничек списка
                 if (allCharacters.isLoadingMore)
                   const CircularProgressIndicator(padding: EdgeInsets.all(20)),
               ],
