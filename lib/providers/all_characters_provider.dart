@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:rick_and_morty/domain/use_cases/index.dart';
 import 'package:rick_and_morty/providers/di/get_all_characters_usecase_provider.dart';
 import 'package:rick_and_morty/state/models/index.dart';
 
@@ -19,7 +20,7 @@ class AllCharactersNotifier extends AsyncNotifier<AllCharacters> {
     if (currentState == null) return;
 
     // обновляем состояние подгрузки
-    state = AsyncValue.data(state.value!.copyWith(isLoadingMore: true));
+    state = AsyncValue.data(currentState.copyWith(isLoadingMore: true));
 
     // получаем usecase
     final loadMoreCharacters = ref.read(loadMoreCharactersUseCaseProvider);
@@ -37,30 +38,11 @@ class AllCharactersNotifier extends AsyncNotifier<AllCharacters> {
     final currentState = state.value;
     if (currentState == null) return;
 
-    // обновляем список персонажей
-    final updatedCharacters = currentState.characters.map((char) {
-      // если id совпадает то меняем isFavorite
-      if (char.character.id == id) {
-        final updateChar = char.copyWith(isFavorite: !char.isFavorite);
-        return updateChar;
-      } else {
-        return char;
-      }
-    }).toList();
-
-    // обновляем список избранных персонажей
-    final updateFavoriteCharacters = updatedCharacters
-        .where((char) => char.isFavorite)
-        .toList();
+    // получаем usecase
+    final addToFavorite = AddToFavoriteUseCase();
 
     // обновляем состояние
-    state = AsyncValue.data(
-      currentState.copyWith(
-        characters: updatedCharacters,
-        favoriteCharacters: updateFavoriteCharacters,
-        sortedCharacters: updateFavoriteCharacters,
-      ),
-    );
+    state = AsyncValue.data(addToFavorite(currentState, id));
   }
 
   deleteFromFavorite(int id) {
@@ -68,35 +50,11 @@ class AllCharactersNotifier extends AsyncNotifier<AllCharacters> {
     final currentState = state.value;
     if (currentState == null) return;
 
-    // обновляем список персонажей
-    final updatedCharacters = currentState.characters.map((char) {
-      // если id совпадает то меняем isFavorite
-      if (char.character.id == id) {
-        final updateChar = char.copyWith(isFavorite: !char.isFavorite);
-        return updateChar;
-      } else {
-        return char;
-      }
-    }).toList();
-
-    // обновляем список избранных персонажей
-    final updateFavoriteCharacters = updatedCharacters
-        .where((char) => char.isFavorite)
-        .toList();
-
-    // обновляем список сортированных персонажей
-    final updateSortedCharacters = currentState.sortedCharacters
-        .where((char) => char.character.id != id)
-        .toList();
+    // получаем usecase
+    final deleteFromFavorite = DeleteFromFavoriteUseCase();
 
     // обновляем состояние
-    state = AsyncValue.data(
-      currentState.copyWith(
-        characters: updatedCharacters,
-        favoriteCharacters: updateFavoriteCharacters,
-        sortedCharacters: updateSortedCharacters,
-      ),
-    );
+    state = AsyncValue.data(deleteFromFavorite(currentState, id));
   }
 
   sortBySpecies(String species) {
@@ -104,17 +62,13 @@ class AllCharactersNotifier extends AsyncNotifier<AllCharacters> {
     final currentState = state.value;
     if (currentState == null) return;
 
-    final sortedCharacters = currentState.favoriteCharacters.where((char) {
-      if (species == 'All') return true;
-      return char.character.species == species;
-    }).toList();
+    // получаем usecase
+    final sortBySpecies = SortBySpeciesUseCase();
 
-    state = AsyncValue.data(
-      currentState.copyWith(sortedCharacters: sortedCharacters),
-    );
+    // обновляем состояние
+    state = AsyncValue.data(sortBySpecies(currentState, species));
   }
 }
 
 // провайдер
-
 final allCharactersProvider = AsyncNotifierProvider(AllCharactersNotifier.new);

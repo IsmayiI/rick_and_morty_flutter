@@ -22,12 +22,11 @@ class LoadMoreCharactersUseCase {
         ...nextPageCharacters.characters,
       ];
 
-      final newState = state.copyWith(
+      return state.copyWith(
         characters: updatedCharacters,
         currentPage: nextPage,
         isLoadingMore: false,
       );
-      return newState;
     } catch (e) {
       rethrow;
     }
