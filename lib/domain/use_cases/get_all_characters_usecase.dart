@@ -1,12 +1,8 @@
 import 'package:hive/hive.dart';
-import 'package:rick_and_morty/state/models/index.dart';
-
-import 'index.dart';
+import 'package:rick_and_morty/domain/index.dart';
 
 class GetAllCharactersUsecase {
   final GetCharactersUseCase getCharactersUseCase;
-
-  // Hive box для кеша
   final Box<CharacterWithFavorite> charactersBox;
 
   GetAllCharactersUsecase(this.getCharactersUseCase, this.charactersBox);
@@ -45,8 +41,8 @@ class GetAllCharactersUsecase {
       // При ошибке пытаемся вернуть кешированные данные
       final cachedCharacters = charactersBox.values.toList();
 
+      // Кеша нет — просто пробрасываем ошибку дальше
       if (cachedCharacters.isEmpty) {
-        // Кеша нет — просто пробрасываем ошибку дальше
         rethrow;
       }
 
@@ -66,17 +62,12 @@ class GetAllCharactersUsecase {
     }
   }
 
+  // Сохраняем персонажей в кеш
   Future<void> _saveCharactersToCache(
     List<CharacterWithFavorite> characters,
   ) async {
-    try {
-      for (var charWithFav in characters) {
-        await charactersBox.put(charWithFav.character.id, charWithFav);
-      }
-    } catch (e) {
-      // Логируем ошибку, но не кидаем дальше,
-      // чтобы не прерывать загрузку с API
-      print('Ошибка при сохранении в кеш: $e');
+    for (var charWithFav in characters) {
+      await charactersBox.put(charWithFav.character.id, charWithFav);
     }
   }
 }

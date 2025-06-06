@@ -1,5 +1,5 @@
 import 'package:hive/hive.dart';
-import 'package:rick_and_morty/state/models/index.dart';
+import 'package:rick_and_morty/domain/index.dart';
 
 class DeleteFromFavoriteUseCase {
   final Box<CharacterWithFavorite> charactersBox;
@@ -8,7 +8,7 @@ class DeleteFromFavoriteUseCase {
   AllCharacters call(AllCharacters state, int id) {
     // обновляем список персонажей
     final updatedCharacters = state.characters.map((char) {
-      // если id совпадает то меняем isFavorite
+      // если id совпадает то убираем из избранных
       if (char.character.id == id) {
         final updateChar = char.copyWith(isFavorite: false);
 

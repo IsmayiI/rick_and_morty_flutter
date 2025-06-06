@@ -1,5 +1,5 @@
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:rick_and_morty/state/models/index.dart';
+import 'package:rick_and_morty/domain/index.dart';
 
 class AddToFavoriteUseCase {
   final Box<CharacterWithFavorite> charactersBox;

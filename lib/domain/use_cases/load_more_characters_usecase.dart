@@ -1,8 +1,6 @@
 import 'package:connectivity_plus/connectivity_plus.dart';
-import 'package:rick_and_morty/config/index.dart';
-import 'package:rick_and_morty/state/models/index.dart';
-
-import 'get_all_characters_usecase.dart';
+import 'package:rick_and_morty/core/index.dart';
+import 'package:rick_and_morty/domain/index.dart';
 
 class LoadMoreCharactersUseCase {
   final Connectivity connectivity;
@@ -14,17 +12,6 @@ class LoadMoreCharactersUseCase {
 
     // проверка на лимит страниц
     if (nextPage > AppConstants.totalPages) {
-      return state.copyWith(hasMore: false, isLoadingMore: false);
-    }
-
-    // Проверка подключения к сети
-    final connectivityResults = await connectivity.checkConnectivity();
-    final hasInternet =
-        connectivityResults.contains(ConnectivityResult.mobile) ||
-        connectivityResults.contains(ConnectivityResult.wifi);
-
-    if (!hasInternet) {
-      // Нет интернета → останавливаем пагинацию
       return state.copyWith(hasMore: false, isLoadingMore: false);
     }
 

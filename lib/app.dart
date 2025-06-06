@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:rick_and_morty/pages/index.dart';
 
-import 'config/index.dart' show lightTheme;
+import 'core/index.dart';
+import 'presentations/index.dart';
 
 class RickAndMortyApp extends StatelessWidget {
   const RickAndMortyApp({super.key});
@@ -11,7 +11,7 @@ class RickAndMortyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: lightTheme,
-      home: MainPage(),
+      home: const MainPage(),
     );
   }
 }

@@ -1,4 +1,4 @@
-import 'package:rick_and_morty/state/models/index.dart';
+import 'package:rick_and_morty/domain/index.dart';
 
 class SortBySpeciesUseCase {
   const SortBySpeciesUseCase();

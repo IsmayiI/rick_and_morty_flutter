@@ -1,5 +1,5 @@
-import 'package:rick_and_morty/domain/models/index.dart';
-import 'package:rick_and_morty/domain/repositories/index.dart';
+import 'package:rick_and_morty/data/index.dart';
+import 'package:rick_and_morty/domain/index.dart';
 
 class GetCharactersUseCase {
   final AppRepository repository;

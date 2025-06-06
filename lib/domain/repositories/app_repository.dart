@@ -1,5 +1,4 @@
-import 'package:rick_and_morty/domain/api/index.dart';
-import 'package:rick_and_morty/domain/models/index.dart';
+import 'package:rick_and_morty/data/index.dart';
 
 class AppRepository {
   final ApiClient apiClient;
