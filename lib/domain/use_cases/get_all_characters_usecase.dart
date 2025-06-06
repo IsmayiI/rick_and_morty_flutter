@@ -58,7 +58,7 @@ class GetAllCharactersUsecase {
       return AllCharacters(
         characters: cachedCharacters,
         currentPage: 1,
-        hasMore: false,
+        hasMore: true,
         isLoadingMore: false,
         favoriteCharacters: updateFavoriteCharacters,
         sortedCharacters: updateFavoriteCharacters,

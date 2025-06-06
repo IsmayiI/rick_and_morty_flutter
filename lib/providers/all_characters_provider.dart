@@ -16,7 +16,19 @@ class AllCharactersNotifier extends AsyncNotifier<AllCharacters> {
     return await getAllCharacters(1);
   }
 
-  Future<void> loadMoreCharacters() async {
+  getAllCharacters() async {
+    state = AsyncLoading();
+    // получаем usecase
+    final getAllCharacters = ref.read(getAllCharactersUseCaseProvider);
+
+    // обновляем состояние
+    state = await AsyncValue.guard(() async {
+      final characters = await getAllCharacters(1);
+      return characters;
+    });
+  }
+
+  loadMoreCharacters() async {
     // получаем текущее состояние и проверяем есть ли оно
     final currentState = state.value;
     if (currentState == null) return;
