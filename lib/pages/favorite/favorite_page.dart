@@ -15,6 +15,7 @@ class FavoritePage extends ConsumerWidget {
       ),
     );
 
+    // список избранных персонажей
     return Scaffold(
       body: Padding(
         // отступ сверху списка
@@ -22,7 +23,18 @@ class FavoritePage extends ConsumerWidget {
 
         child: Column(
           children: [
+            // сортировка
             _SortBySpecies(),
+
+            // если список избранных персонажей пуст
+            if (sortedCharacters.isEmpty)
+              const Center(
+                child: Text(
+                  'Characters not found',
+                  style: TextStyle(fontSize: 20, color: AppColorsLight.primary),
+                ),
+              ),
+
             // список
             Expanded(
               child: ListView.separated(

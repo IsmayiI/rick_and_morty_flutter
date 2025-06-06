@@ -1,15 +1,25 @@
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:rick_and_morty/state/models/index.dart';
 
 class AddToFavoriteUseCase {
-  const AddToFavoriteUseCase();
+  final Box<CharacterWithFavorite> charactersBox;
+  const AddToFavoriteUseCase(this.charactersBox);
 
   AllCharacters call(AllCharacters state, int id) {
     // обновляем список персонажей
     final updatedCharacters = state.characters.map((char) {
       // если id совпадает то меняем isFavorite
       if (char.character.id == id) {
-        final updateChar = char.copyWith(isFavorite: !char.isFavorite);
-        return updateChar;
+        final updatedChar = char.copyWith(isFavorite: !char.isFavorite);
+
+        // Обновляем Hive
+        if (updatedChar.isFavorite) {
+          charactersBox.put(char.character.id, updatedChar);
+        } else {
+          charactersBox.delete(char.character.id);
+        }
+
+        return updatedChar;
       } else {
         return char;
       }

@@ -2,9 +2,11 @@ import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rick_and_morty/domain/use_cases/index.dart';
+import 'package:rick_and_morty/providers/di/add_to_favorite_usecase_provider.dart';
 import 'package:rick_and_morty/providers/di/get_all_characters_usecase_provider.dart';
 import 'package:rick_and_morty/state/models/index.dart';
 
+import 'di/delete_from_favorite_usecase_provider.dart';
 import 'di/load_more_characters_usecase_provider.dart';
 
 class AllCharactersNotifier extends AsyncNotifier<AllCharacters> {
@@ -39,7 +41,7 @@ class AllCharactersNotifier extends AsyncNotifier<AllCharacters> {
     if (currentState == null) return;
 
     // получаем usecase
-    final addToFavorite = AddToFavoriteUseCase();
+    final addToFavorite = ref.read(addToFavoriteUseCaseProvider);
 
     // обновляем состояние
     state = AsyncValue.data(addToFavorite(currentState, id));
@@ -51,7 +53,7 @@ class AllCharactersNotifier extends AsyncNotifier<AllCharacters> {
     if (currentState == null) return;
 
     // получаем usecase
-    final deleteFromFavorite = DeleteFromFavoriteUseCase();
+    final deleteFromFavorite = ref.read(deleteFromFavoriteUseCaseProvider);
 
     // обновляем состояние
     state = AsyncValue.data(deleteFromFavorite(currentState, id));

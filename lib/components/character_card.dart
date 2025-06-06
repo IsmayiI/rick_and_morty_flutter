@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rick_and_morty/config/index.dart';
@@ -139,11 +140,21 @@ class _CardImage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Image.network(
-      character.image,
+    return CachedNetworkImage(
+      imageUrl: character.image,
       width: 143,
       height: 143,
       fit: BoxFit.cover,
+      errorWidget: (context, url, error) =>
+          const Icon(Icons.image_not_supported),
     );
+    // return Image.network(
+    //   character.image,
+    //   width: 143,
+    //   height: 143,
+    //   fit: BoxFit.cover,
+    //   errorBuilder: (context, error, stackTrace) =>
+    //       Placeholder(fallbackHeight: 143, fallbackWidth: 143),
+    // );
   }
 }

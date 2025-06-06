@@ -12,7 +12,6 @@ class LoadMoreCharactersUseCase {
     if (nextPage > AppConstants.totalPages) {
       return state.copyWith(hasMore: false);
     }
-    ;
 
     try {
       final nextPageCharacters = await getAllCharacters(nextPage);

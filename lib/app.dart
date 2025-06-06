@@ -8,6 +8,10 @@ class RickAndMortyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(theme: lightTheme, home: MainPage());
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      theme: lightTheme,
+      home: MainPage(),
+    );
   }
 }
