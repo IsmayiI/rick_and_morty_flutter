@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:rick_and_morty/core/index.dart';
 import 'package:rick_and_morty/presentations/index.dart';
 
 class HomePage extends ConsumerWidget {
@@ -16,10 +17,10 @@ class HomePage extends ConsumerWidget {
       child: Scaffold(
         body: asyncAllCharacters.when(
           // загрузка
-          loading: () => const Center(child: CircularProgressIndicator()),
+          loading: () => const _Loading(),
 
           // ошибка
-          error: (err, st) => const Center(child: Text('error')),
+          error: (err, st) => const _Error(),
 
           // данные
           data: (allCharacters) {
@@ -61,6 +62,41 @@ class HomePage extends ConsumerWidget {
             );
           },
         ),
+      ),
+    );
+  }
+}
+
+class _Loading extends StatelessWidget {
+  const _Loading();
+
+  @override
+  Widget build(BuildContext context) {
+    return const Center(child: CircularProgressIndicator());
+  }
+}
+
+class _Error extends ConsumerWidget {
+  const _Error();
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          const Text(
+            'error',
+            style: TextStyle(fontSize: 20, color: AppColorsLight.primary),
+          ),
+          const SizedBox(height: 20),
+          ElevatedButton(
+            onPressed: ref
+                .read(allCharactersProvider.notifier)
+                .getAllCharacters,
+            child: const Text('reload'),
+          ),
+        ],
       ),
     );
   }
